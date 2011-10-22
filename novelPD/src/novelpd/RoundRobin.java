@@ -106,15 +106,18 @@ public class RoundRobin
                 }
             if (prisoner1.sentence < prisoner2.sentence)
                 {
-                return prisoner1.name ;
+                String theString = (prisoner1.name + "," + prisoner2.name + "," + prisoner1.sentence + "," + prisoner2.sentence) ;
+                return theString ;
                 }
             else if (prisoner2.sentence < prisoner1.sentence) 
                 {
-                return prisoner2.name ;
+                String theString = (prisoner2.name + "," + prisoner1.name + "," + prisoner2.sentence + "," + prisoner1.sentence) ;
+                return theString ;
                 }
             else
                 {
-                return ("either a tie or an error") ;
+                String theString = ("TIE" + prisoner2.name + "," + prisoner1.name + "," + prisoner2.sentence + "," + prisoner1.sentence) ;
+                return theString ;
                 }
             
         
