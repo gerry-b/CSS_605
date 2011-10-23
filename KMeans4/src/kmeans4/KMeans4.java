@@ -21,7 +21,7 @@ public class KMeans4
             
     int pointNum = 10 ;
             
-    for (int i = 0 ; i <= pointNum ; i += 1 )     //This will make our regular points
+    for (int i = 0 ; i <= (pointNum * 2) ; i += 1 )     //This will make our regular points
         {
         Point newPoint = new Point(i , i) ;
         pointList.add(newPoint) ; 

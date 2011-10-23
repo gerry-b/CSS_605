@@ -23,56 +23,62 @@ public class DistMeasDev
     
     public Result calcNAddEnergies(String measureMethod)
     {
-        double aggEnergy  = 0 ;  //A sentinel value we'll use later to hold the aggregate energy for these 3 centroids
         
-        //first we get 3 centroids
-        ArrayList<Point> CentroidList = chooseCentroids() ;
-        Point Centroid1 = CentroidList.get(0) ;
-        Point Centroid2 = CentroidList.get(1) ;
-        Point Centroid3 = CentroidList.get(2) ;
+        for (int i = 0 ; i <= pointList.size() ; i += 1) 
+        {
+            ArrayList<Point> CentroidList = chooseCentroids() ;
+
+                Point Centroid1 = CentroidList.get(0) ;
+                Point Centroid2 = CentroidList.get(1) ;
+                Point Centroid3 = CentroidList.get(2) ;
+
+            
+
+                Point currentPoint = pointList.get(j) ;  //looks at energy for point when paired with each centroid
+                double Centroid1Energy ;
+                double Centroid2Energy ;
+                double Centroid3Energy ;
+                if (measureMethod.equals("M"))
+                    {   Centroid1Energy = calcManDis(currentPoint , Centroid1) ;
+                        Centroid2Energy = calcManDis(currentPoint , Centroid2) ;
+                        Centroid3Energy = calcManDis(currentPoint , Centroid3) ;
+                        
+                        
+                        
+                    }
+                else if (measureMethod.equals("E"))
+                    {
+                        Centroid1Energy = calcEucDis(currentPoint , Centroid1) ;
+                        Centroid2Energy = calcEucDis(currentPoint , Centroid2) ;
+                        Centroid3Energy = calcEucDis(currentPoint , Centroid3) ;
+                    }
+                else if (measureMethod.equals("SE"))
+                    {
+                        Centroid1Energy = calcSquEucDis(currentPoint , Centroid1) ;
+                        Centroid2Energy = calcSquEucDis(currentPoint , Centroid2) ;
+                        Centroid3Energy = calcSquEucDis(currentPoint , Centroid3) ;
+                    }
+                else
+                    {
+                        System.out.println("ERROR IN calcNAddEnergies Method in DistMeasDev class") ;
+                        Centroid1Energy = calcSquEucDis(currentPoint , Centroid1) ;
+                        Centroid2Energy = calcSquEucDis(currentPoint , Centroid2) ;
+                        Centroid3Energy = calcSquEucDis(currentPoint , Centroid3) ;
+                    }
+                //Now we put Centroid energies in an AL so we can find lowest Centroid energy
+                ArrayList<Double> AL = new ArrayList<Double>() ;
+                AL.add(Centroid1Energy) ;
+                AL.add(Centroid2Energy) ;
+                AL.add(Centroid3Energy) ;
+                //Now we find the lowest energy for that point
+                double lowestEnergy = determineLowestEnergy(AL) ;
+                //Now we add that lowest energy for that point to our aggregate energy
+                aggEnergy += lowestEnergy ;
+            
         
-        //Now we go through pointList finding Manhattan energies for each point
-        for (int i = 0; i <= (pointList.size() - 1) ; i += 1)
-            {
-            Point currentPoint = pointList.get(i) ;  //looks at energy for point when paired with each centroid
-            double Centroid1Energy ;
-            double Centroid2Energy ;
-            double Centroid3Energy ;
-            if (measureMethod.equals("M"))
-                {   Centroid1Energy = calcManDis(currentPoint , Centroid1) ;
-                    Centroid2Energy = calcManDis(currentPoint , Centroid2) ;
-                    Centroid3Energy = calcManDis(currentPoint , Centroid3) ;
-                }
-            else if (measureMethod.equals("E"))
-                {
-                    Centroid1Energy = calcEucDis(currentPoint , Centroid1) ;
-                    Centroid2Energy = calcEucDis(currentPoint , Centroid2) ;
-                    Centroid3Energy = calcEucDis(currentPoint , Centroid3) ;
-                }
-            else if (measureMethod.equals("SE"))
-                {
-                    Centroid1Energy = calcSquEucDis(currentPoint , Centroid1) ;
-                    Centroid2Energy = calcSquEucDis(currentPoint , Centroid2) ;
-                    Centroid3Energy = calcSquEucDis(currentPoint , Centroid3) ;
-                }
-            else
-                {
-                    System.out.println("ERROR IN calcNAddEnergies Method in DistMeasDev class") ;
-                    Centroid1Energy = calcSquEucDis(currentPoint , Centroid1) ;
-                    Centroid2Energy = calcSquEucDis(currentPoint , Centroid2) ;
-                    Centroid3Energy = calcSquEucDis(currentPoint , Centroid3) ;
-                }
-            //Now we put Centroid energies in an AL so we can find lowest Centroid energy
-            ArrayList<Double> AL = new ArrayList<Double>() ;
-            AL.add(Centroid1Energy) ;
-            AL.add(Centroid2Energy) ;
-            AL.add(Centroid3Energy) ;
-            //Now we find the lowest energy for that point
-            double lowestEnergy = determineLowestEnergy(AL) ;
-            //Now we add that lowest energy for that point to our aggregate energy
-            aggEnergy += lowestEnergy ;
-            }
-        
+
+
+
         Result theResult  ;
         if (measureMethod.equals("M"))  //"M" is our short hand for Manhattan
                 {
@@ -86,11 +92,14 @@ public class DistMeasDev
                 {
                 theResult = new Result("SE", aggEnergy, CentroidList) ;  //"SE" is short hand for Square Euclidean
                 }
-        
+            
         return theResult ;
     }
+        }
+    }
         
-    
+        
+        
     
     
     
